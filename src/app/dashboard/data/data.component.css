@@ -1,0 +1,11 @@
+button.active {
+    background-color: orange;
+}
+@media (min-width: 992px) {
+    .fixed-height-row {
+      height: 200px;
+      display: flex;
+      align-items: center;
+    }
+  }
+  

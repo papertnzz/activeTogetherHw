@@ -1,0 +1,73 @@
+<!-- Курсы -->
+<div class="container-fluid">
+  <!-- Заголовок для курсов -->
+  <div class="row fixed-height-row fw-bold border-bottom">
+    <div class="col-12 col-lg-10 offset-lg-1">
+      <div class="row">
+        <div class="col-2">Kurs</div>
+        <div class="col-2">Veranstaltungsort</div>
+        <div class="col-3">Adresse des Veranstaltungsortes</div>
+        <div class="col-2">Öffentlich erreichbar?</div>
+        <div class="col-2">Kursleiter</div>
+        <div class="col-1">Alle Termine</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Данные по курсам -->
+  <div class="row mt-2">
+    <div class="col-12 col-md-10 offset-md-1">
+      <div class="row border-bottom" *ngFor="let course of storeService.courses">
+        <div class="col-2">{{course.name}}</div>
+        <div class="col-2">{{course.eventLocation.name}}</div>
+        <div class="col-3">{{course.eventLocation.address}}</div>
+        <div class="col-2">{{course.eventLocation.venueByPublicTransport ? 'Ja' : 'Nein'}}</div>
+        <div class="col-2">{{course.instructor}}</div>
+        <div class="col-1">
+          <ul class="p-0 m-0" style="list-style: none;">
+            <li *ngFor="let date of course.dates">
+              {{date.begin | date:'MMM dd, yyyy HH:mm'}} - {{date.end | date:'MMM dd, yyyy HH:mm'}}
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Регистрации -->
+<div class="container-fluid mt-4">
+  <!-- Заголовок для регистраций -->
+  <div class="row fixed-height-row fw-bold border-bottom">
+    <div class="col-12 col-md-10 offset-md-1">
+      <div class="row">
+        <div class="col-4">Name</div>
+        <div class="col-4">Geburtsdatum</div>
+        <div class="col-4">Kurs</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Данные по регистрациям -->
+  <div class="row mt-2">
+    <div class="col-12 col-md-10 offset-md-1">
+      <div class="row border-bottom" *ngFor="let registration of storeService.registrations">
+        <div class="col-4">{{registration.name}}</div>
+        <div class="col-4">{{registration.birthdate}}</div>
+        <div class="col-4">{{registration.course.name}}</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Пагинация -->
+  <div class="row mt-2">
+    <div class="col-12 col-md-10 offset-md-1 text-center">
+      <button [ngClass]="page == storeService.currentPage ? 'active' : ''"
+              (click)="selectPage(page)"
+              type="button"
+              *ngFor="let page of returnAllPages()">
+        {{page}}
+      </button>
+    </div>
+  </div>
+</div>

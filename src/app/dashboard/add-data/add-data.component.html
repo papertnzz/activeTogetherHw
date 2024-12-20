@@ -1,0 +1,73 @@
+<form [formGroup]="registrationForm" (ngSubmit)="onSubmit()" class="row justify-content-center">
+  <!-- Auf kleineren Geräten col-12 (volle Breite), auf Desktop col-lg-10 und zentriert durch offset-lg-1 -->
+  <div class="col-lg-10 offset-lg-1">
+    <h2>Zum Kurs anmelden!</h2>
+
+    <!-- Name -->
+    <mat-form-field appearance="outline" class="w-100 mb-3">
+      <mat-label>Name der registrierten Person</mat-label>
+      <input matInput formControlName="name" placeholder="Name">
+      <mat-error *ngIf="registrationForm.get('name').hasError('required')">
+        Bitte Namen eingeben.
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Geburtsdatum -->
+    <mat-form-field appearance="outline" class="w-100 mb-3">
+      <mat-label>Geburtsdatum</mat-label>
+      <input matInput type="date" formControlName="birthdate">
+      <mat-error *ngIf="registrationForm.get('birthdate').hasError('required')">
+        Bitte Geburtsdatum eingeben.
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Email -->
+    <mat-form-field appearance="outline" class="w-100 mb-3">
+      <mat-label>Email</mat-label>
+      <input matInput type="email" formControlName="email">
+      <mat-error *ngIf="registrationForm.get('email').hasError('required')">
+        Email ist erforderlich!
+      </mat-error>
+      <mat-error *ngIf="registrationForm.get('email').hasError('email')">
+        Bitte eine gültige Email-Adresse eingeben!
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Newsletter Checkbox -->
+    <mat-checkbox formControlName="newsletter" class="mb-3">
+      Zum Newsletter anmelden
+    </mat-checkbox>
+
+    <!-- Kursauswahl -->
+    <mat-form-field appearance="outline" class="w-100 mb-3">
+      <mat-label>Kurs auswählen</mat-label>
+      <mat-select formControlName="courseId">
+        <mat-option value="">Bitte auswählen</mat-option>
+        <mat-option *ngFor="let course of storeService.courses" [value]="course.id">
+          {{ course.name }}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="registrationForm.get('courseId').hasError('required')">
+        Bitte einen Kurs auswählen!
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Abschicken-Button -->
+    <button mat-raised-button color="primary" type="submit" [disabled]="registrationForm.invalid">
+      Erfassen
+    </button>
+  </div>
+</form>
+
+<!-- Bootstrap-Toast für Erfolgsmeldung -->
+<div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 2000;">
+  <div #successToast class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="toast-header">
+      <strong class="me-auto">Erfolg</strong>
+      <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+    <div class="toast-body">
+      Der Kurs wurde erfolgreich gebucht!
+    </div>
+  </div>
+</div>
