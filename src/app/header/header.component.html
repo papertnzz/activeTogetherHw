@@ -1,8 +1,10 @@
-<mat-toolbar color="primary">
-  <span>ActiveTogether</span>
-  <span class="spacer"></span>
-  <button mat-button [matMenuTriggerFor]="mainMenu">Menü</button>
-</mat-toolbar>
+<div class="header-container">
+  <mat-toolbar color="primary">
+    <span>ActiveTogether</span>
+    <span class="spacer"></span>
+    <button mat-button [matMenuTriggerFor]="mainMenu">Menü</button>
+  </mat-toolbar>
+</div>
 
 <mat-menu #mainMenu="matMenu">
   <button mat-menu-item [routerLink]="['/dashboard']">Dashboard</button>

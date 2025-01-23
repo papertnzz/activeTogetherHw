@@ -1,13 +1,13 @@
-<!-- KURSE -->
+
 <div class="container-fluid">
-  <!-- Titel "Kurse" -->
+  
   <div class="row fw-bold border-bottom">
     <div class="col-12 col-lg-10 offset-lg-1 d-flex align-items-center">
       <h3 class="mb-0">Kurse</h3>
     </div>
   </div>
 
-  <!-- Kurs-Tabelle -->
+  
   <div class="row mt-2">
     <div class="col-12 col-lg-10 offset-lg-1">
       <div class="table-responsive">
@@ -45,13 +45,13 @@
   </div>
 </div>
 
-<!-- REGISTRIERUNGEN -->
+
 <div class="container-fluid mt-4">
-  <!-- Titel + Sortierung -->
+  
   <div class="row fw-bold border-bottom">
     <div class="col-12 col-lg-10 offset-lg-1 d-flex align-items-center justify-content-between">
       <h3 class="mb-0">Registrierungen</h3>
-      <!-- Sortier-Button -->
+      
       <button class="btn btn-secondary" (click)="toggleSortByDate()">
         Sortieren nach Anmeldedatum
         <span *ngIf="sortAsc">▲</span>
@@ -60,7 +60,7 @@
     </div>
   </div>
 
-  <!-- Registrierungs-Tabelle -->
+  
   <div class="row mt-2">
     <div class="col-12 col-lg-10 offset-lg-1">
       <div class="table-responsive">
@@ -91,7 +91,7 @@
                   Abmelden
                 </button>
 
-                <!-- Row-basiertes Overlay -->
+               
                 <div
                   class="overlay-spinner"
                   *ngIf="registration.isDeleting"
@@ -108,7 +108,7 @@
     </div>
   </div>
 
-  <!-- PAGINIERUNG -->
+  
   <div class="row mt-2">
     <div class="col-12 col-md-10 offset-md-1 text-center">
       <button
