@@ -7,17 +7,8 @@ import { MatButtonModule } from '@angular/material/button';
 @Component({
   selector: 'app-header',
   standalone: true,
-  // Hier müssen Sie die benötigten Module angeben
-  imports: [
-    RouterLink,
-    MatToolbarModule,
-    MatMenuModule,
-    MatButtonModule
-  ],
+  imports: [RouterLink, MatToolbarModule, MatMenuModule, MatButtonModule],
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })
-export class HeaderComponent {
-  public title: string = 'Stay Active, Stay Together';
-  public imagePath: string = "./../assets/images/sport.jpeg";
-}
+export class HeaderComponent {}

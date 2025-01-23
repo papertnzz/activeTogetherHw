@@ -1,5 +1,5 @@
 import { Component, OnInit, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
@@ -9,68 +9,91 @@ import { SharedModule } from '../../shared/shared.module';
 import { StoreService } from '../../shared/store.service';
 import { BackendService } from '../../shared/backend.service';
 
-declare var bootstrap: any; // Falls Sie die globale Bootstrap Variable nutzen
+
+declare var bootstrap: any;
 
 @Component({
   selector: 'app-add-data',
   standalone: true,
   imports: [
-    ReactiveFormsModule,
+    SharedModule,
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
     MatCheckboxModule,
     MatButtonModule,
-    SharedModule
   ],
   templateUrl: './add-data.component.html',
-  styleUrls: ['./add-data.component.css']
+  styleUrls: ['./add-data.component.css'],
 })
 export class AddDataComponent implements OnInit, AfterViewInit {
-  public registrationForm: any;
+  public registrationForm!: FormGroup;
 
   @ViewChild('successToast', { static: true }) successToastEl!: ElementRef;
   private successToast: any;
 
+  public successMessage: string = 'Der Kurs wurde erfolgreich gebucht!';
+
   constructor(
-    private formbuilder: FormBuilder,
+    private fb: FormBuilder,
     public storeService: StoreService,
     private backendService: BackendService
   ) {}
 
   ngOnInit(): void {
-    this.registrationForm = this.formbuilder.group({
-      name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
-      email: ['', [Validators.required, Validators.email]],
-      courseId: ['', Validators.required],
+    
+    this.registrationForm = this.fb.group({
+      name: [
+        '',
+        [Validators.required, Validators.minLength(3), Validators.maxLength(50)],
+      ],
       birthdate: [
-        null,
+        '',
         [
           Validators.required,
           Validators.min(new Date('1900-01-01').getTime()),
-          Validators.max(new Date().getTime())
-        ]
+          Validators.max(new Date().getTime()),
+        ],
       ],
-      newsletter: [false]
+      email: ['', [Validators.required, Validators.email]],
+      newsletter: [false],
+      courseId: ['', Validators.required],
     });
   }
-  
 
   ngAfterViewInit(): void {
-    
-    this.successToast = new bootstrap.Toast(this.successToastEl.nativeElement, { delay: 3000 });
+    this.successToast = new bootstrap.Toast(this.successToastEl.nativeElement, {
+      delay: 5000, 
+    });
   }
 
   onSubmit() {
     if (this.registrationForm.valid) {
-      this.backendService.addRegistration(this.registrationForm.value, this.storeService.currentPage)
+      
+      const formValue = this.registrationForm.value;
+      const selectedCourse = this.storeService.courses.find(
+        (c) => c.id == formValue.courseId
+      );
+
+      const newRegistration = {
+        ...formValue,
+        registrationDate: new Date().toISOString(), 
+      };
+
+      this.backendService
+        .addRegistration(newRegistration, this.storeService.currentPage)
         .subscribe({
           next: () => {
-            this.backendService.getRegistrations(this.storeService.currentPage);
             
+            this.successMessage = selectedCourse
+              ? `Erfolgreich für Kurs "${selectedCourse.name}" angemeldet!`
+              : 'Erfolgreich angemeldet!';
+
+            this.backendService.getRegistrations(this.storeService.currentPage);
             this.successToast.show();
+            this.registrationForm.reset();
           },
-          error: (err) => console.error(err)
+          error: (err) => console.error(err),
         });
     }
   }

@@ -6,13 +6,13 @@ import { Registration } from './Interfaces/Registration';
   providedIn: 'root'
 })
 export class StoreService {
-
-  constructor() { }
+  constructor() {}
 
   public courses: Course[] = [];
   public registrations: Registration[] = [];
   public registrationTotalCount: number = 0;
   public currentPage: number = 1;
+
   public cousesLoading = true;
   public registrationsLoading = true;
 }

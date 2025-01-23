@@ -1,15 +1,13 @@
 import { EventLocation } from "./EventLocation";
 
 export interface Course {
-    id: string;
-    name: string;
-    dates: Date[],
-    instructor: string,
-    eventLocationId: number,
-    eventLocation: EventLocation
-  }
-
-  interface Date {
-    begin: string,
-    end: string
-  }
+  id: number;  
+  name: string;
+  instructor: string;
+  eventLocationId: number;
+  eventLocation: EventLocation;
+  dates: {
+    begin: string;
+    end: string;
+  }[];
+}

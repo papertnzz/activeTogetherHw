@@ -14,7 +14,7 @@ import { BackendService } from '../shared/backend.service';
 })
 export class DashboardComponent {
   
-  public showForm = true;
+  public showForm = false;
 
   buttonClicked() {
     this.showForm = !this.showForm;
